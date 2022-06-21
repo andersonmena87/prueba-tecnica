@@ -2,7 +2,10 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { UsuarioModel } from 'src/app/Models/Usuario.model';
+import { UsuarioModel } from 'src/app/models/Usuario.model';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioGestionaComponent } from './modal-usuario-gestiona/usuarioGestion.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-usuarios',
@@ -10,45 +13,62 @@ import { UsuarioModel } from 'src/app/Models/Usuario.model';
   styleUrls: ['./usuarios.component.scss']
 })
 export class UsuariosComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['nombre', 'fechaNacimiento', 'sexo'];
+  displayedColumns = ['nombre', 'fechaNacimiento', 'genero', 'actions'];
   dataSource: MatTableDataSource<UsuarioModel>;
   usuarios: UsuarioModel[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
+  constructor(
+    public dialog: MatDialog,
+    private usuarioService: UsuarioService
+  ) {
     this.dataSource = new MatTableDataSource(this.usuarios);
    }
 
   ngOnInit(): void {
-    //this.dataSource = new MatTableDataSource(this.usuarios);
-    const usuarios: UsuarioModel[] = [
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Anderson11', fechaNacimiento: '24/12/1987', sexo: 'M'},
-      {nombre: 'Juan', fechaNacimiento: '24/12/1987', sexo: 'M'}
-    ]
+    this.getUsers();
+  }
 
-    this.dataSource = new MatTableDataSource(usuarios);
-    console.log('sort: ', this.sort, 'paginator: ', this.paginator);
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  getUsers(){
+    this.usuarioService.getUsers().subscribe({
+      next: (response) => {
+        this.usuarios = response;
+        this.dataSource = new MatTableDataSource(this.usuarios);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }
+    })
   }
 
   create() {
+    const dialogRef = this.dialog.open(UsuarioGestionaComponent, {
+      width: '50%',
+      disableClose: true, data: {}
+    });
 
+    dialogRef.componentInstance.metodo = 'save';
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
+      this.getUsers();
+    });
   }
 
-  update() {
+  update(usuario: UsuarioModel) {
+    const dialogRef = this.dialog.open(UsuarioGestionaComponent, {
+      width: '50%',
+      disableClose: true, data: usuario
+    });
+
+    dialogRef.componentInstance.metodo = 'update';
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
+      this.getUsers();
+    });
+  }
+
+  delete(usuario: UsuarioModel){
 
   }
 

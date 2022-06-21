@@ -1,0 +1,39 @@
+<div class="container-modal">
+  <div mat-dialog-title>
+    <h3><strong>Gestionar Usuario</strong></h3>
+  </div>
+  <div mat-dialog-content>
+    <form #formControl="ngForm">
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput #input class="form-control" name="nombre" type="text" [(ngModel)]="data.nombre"
+            maxlength="100" required/>
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="width">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput name="fechaNacimiento" [matDatepicker]="dp3" disabled [(ngModel)]="data.fechaNacimiento" required>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+          <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="width">
+          <mat-label>Genero</mat-label>
+          <mat-select name="genero" [(ngModel)]="data.genero" required>
+            <mat-option value="M">Masculino</mat-option>
+            <mat-option value="F">Femenino</mat-option>
+          </mat-select>
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!formControl.valid" (click)="processData()">
+      <span>Guardar</span>
+    </button>
+    <button mat-raised-button color="primary" (click)="cancel()" tabindex="-1">Cancelar</button>
+  </div>
+</div>

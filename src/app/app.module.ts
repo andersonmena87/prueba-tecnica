@@ -15,11 +15,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UsuarioGestionaComponent } from './componentes/usuarios/modal-usuario-gestiona/usuarioGestion.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsuariosComponent,
+    UsuarioGestionaComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +42,17 @@ import { MatSortModule } from '@angular/material/sort';
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    MatNativeDateModule
   ],
   providers: [
     CookieService,
