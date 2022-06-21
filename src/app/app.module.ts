@@ -26,6 +26,7 @@ import { UsuarioGestionaComponent } from './componentes/usuarios/modal-usuario-g
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { EliminarUsuarioComponent } from './componentes/usuarios/modal-eliminar/eliminarUsuario.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { EliminarUsuarioComponent } from './componentes/usuarios/modal-eliminar/
     MatNativeDateModule
   ],
   providers: [
+    DatePipe,
     CookieService,
     {
       provide: HTTP_INTERCEPTORS,

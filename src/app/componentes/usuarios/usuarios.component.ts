@@ -7,6 +7,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsuarioGestionaComponent } from './modal-usuario-gestiona/usuarioGestion.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EliminarUsuarioComponent } from './modal-eliminar/eliminarUsuario.component';
+import { ExcelService } from 'src/app/services/excel.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios',
@@ -23,7 +25,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dialog: MatDialog,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private excelService: ExcelService,
+    private datePipe: DatePipe,
   ) {
     this.dataSource = new MatTableDataSource(this.usuarios);
    }
@@ -88,6 +92,25 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  getExcel(){
+    let usuarios: any [] = [];
+    let fecha: Date;
+    this.dataSource.data.forEach((data) => {
+      fecha = new Date(data.fechaNacimiento)
+      usuarios.push({
+        'Nombre': data.nombre,
+        'Fecha de nacimiento': this.datePipe.transform(fecha, 'dd-MM-yyyy', 'es-ES'),
+        'Género': this.getGenero(data.genero)
+      })
+    })
+
+    this.excelService.exportAsExcelFile(usuarios, 'xls');
+  }
+
+  getGenero(genero: string){
+    return genero == 'M' ? 'Masculino' : 'Femenino';
   }
 
   refreshTable() {
