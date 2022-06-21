@@ -22,8 +22,8 @@
     </ng-container>
 
     <ng-container matColumnDef="genero">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Genero</th>
-      <td mat-cell *matCellDef="let row"> {{row.genero}}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Género</th>
+      <td mat-cell *matCellDef="let row"> {{(row.genero === "M" ? 'Masculino' : 'Femenino') }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
