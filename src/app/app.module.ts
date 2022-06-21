@@ -25,12 +25,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UsuarioGestionaComponent } from './componentes/usuarios/modal-usuario-gestiona/usuarioGestion.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import { EliminarUsuarioComponent } from './componentes/usuarios/modal-eliminar/eliminarUsuario.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsuariosComponent,
-    UsuarioGestionaComponent
+    UsuarioGestionaComponent,
+    EliminarUsuarioComponent
   ],
   imports: [
     BrowserModule,

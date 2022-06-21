@@ -6,6 +6,7 @@ import { UsuarioModel } from 'src/app/models/Usuario.model';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsuarioGestionaComponent } from './modal-usuario-gestiona/usuarioGestion.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EliminarUsuarioComponent } from './modal-eliminar/eliminarUsuario.component';
 
 @Component({
   selector: 'app-usuarios',
@@ -69,7 +70,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   delete(usuario: UsuarioModel){
+    const dialogRef = this.dialog.open(EliminarUsuarioComponent, {
+      width: '40%',
+      disableClose: true, data: usuario
+    });
 
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
+      this.getUsers();
+    });
   }
 
   search(event: Event) {
